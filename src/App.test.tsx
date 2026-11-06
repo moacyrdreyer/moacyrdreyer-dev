@@ -42,6 +42,32 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: site.credit.license })).toBeInTheDocument()
   })
 
+  it('uses the name as the page title', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveAccessibleName(site.name)
+  })
+
+  it('has an about section with the portrait and a call to action', () => {
+    render(<App />)
+    const about = document.getElementById('sobre')!
+    expect(within(about).getByRole('img', { name: site.about.photo.alt })).toBeInTheDocument()
+    expect(within(about).getAllByRole('listitem')).toHaveLength(site.about.points.length)
+    expect(within(about).getByRole('link', { name: new RegExp(site.about.cta) })).toHaveAttribute('href', '#contato')
+  })
+
+  it('offers e-mail as a button without printing the address', () => {
+    render(<App />)
+    const contact = document.getElementById('contato')!
+    expect(within(contact).getByRole('link', { name: new RegExp(site.contact.cta) })).toHaveAttribute('href', `mailto:${site.email}`)
+    expect(contact.textContent).not.toContain(site.email)
+  })
+
+  it('keeps the rendered poster when WebGL is unavailable', async () => {
+    const { container } = render(<App />)
+    // jsdom has no WebGL: the stage falls back to the still image
+    expect(await vi.waitFor(() => container.querySelector('.stage.gl-off'))).not.toBeNull()
+  })
+
   it('hides optional contact links that are not filled in', () => {
     render(<App />)
     expect(screen.queryByRole('link', { name: 'LinkedIn' })).toBeNull()

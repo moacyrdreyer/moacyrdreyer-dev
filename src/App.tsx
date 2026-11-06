@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { MacbookHero } from './components/hero/MacbookHero'
 import { Nav } from './components/Nav'
@@ -24,6 +25,7 @@ export default function App() {
         <MacbookHero />
         <Showcase />
         <div className="light-sec">
+          <About />
           <Services />
           <Projects />
           <OpenSource />

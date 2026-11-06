@@ -81,23 +81,12 @@ h2 { font-size: clamp(36px, 4.6vw, 60px); line-height: 1.05; font-weight: 500; l
 .scrolly { height: 420vh; position: relative; }
 .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1400px; }
 .strata { position: absolute; inset: 0; width: 100%; height: 100%; }
-.tilt { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
-.seq { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity 0.2s linear; }
-.screen { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform-origin: 0 0; mix-blend-mode: screen; pointer-events: none; opacity: 0; will-change: transform, opacity; }
-.glare { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; background: radial-gradient(520px circle at var(--gx, 70%) var(--gy, 40%), rgba(255, 255, 255, 0.07), transparent 65%); }
-.os { width: 100%; height: 100%; background: radial-gradient(120% 90% at 70% 0%, #23262c 0%, #0c0d0f 70%); position: relative; overflow: hidden; }
-.os-menubar { position: absolute; inset: 0 0 auto; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 19px; color: rgba(255, 255, 255, 0.75); background: rgba(255, 255, 255, 0.04); }
-.os-notch { position: absolute; top: 0; left: 44.7%; width: 10.6%; height: 4.6%; background: #000; border-radius: 0 0 16px 16px; z-index: 3; }
-.os-boot { position: absolute; inset: 0; display: grid; place-items: center; transition: opacity 0.5s; }
-.os-boot h3 { font-size: 120px; font-weight: 500; letter-spacing: -0.05em; }
-.os-boot h3 i { display: inline-block; width: 24px; height: 24px; border-radius: 50%; background: var(--silver); margin-left: 8px; }
-.os-ide { position: absolute; inset: 70px 70px 60px; border-radius: 18px; background: rgba(23, 25, 28, 0.92); border: 2px solid var(--g700); opacity: 0; transition: opacity 0.5s; display: grid; grid-template-rows: 64px 1fr; overflow: hidden; }
-.os-ide .bar { display: flex; align-items: center; gap: 14px; padding: 0 28px; border-bottom: 2px solid var(--g700); }
-.os-ide .bar b { width: 16px; height: 16px; border-radius: 50%; background: var(--g700); }
-.os-ide .bar span { margin-left: 18px; font: 500 22px var(--mono); color: var(--silver-hi); background: var(--g800); padding: 6px 16px; border-radius: 6px; }
-.os-ide pre { font: 30px/1.65 var(--mono); color: var(--silver); padding: 40px 48px; white-space: pre-wrap; }
-.os-ide .caret { width: 16px; }
-
+.poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.9s var(--ease); pointer-events: none; }
+.gl { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; opacity: 0; transition: opacity 0.9s var(--ease); }
+.gl-ready .gl { opacity: 1; }
+.gl-ready .poster { opacity: 0; }
+.gl-off .gl { display: none; }
+.hero-copy h1.name { font-family: 'Space Grotesk Variable', var(--sans); font-weight: 700; text-transform: uppercase; font-size: clamp(56px, 8.4vw, 128px); line-height: 0.88; letter-spacing: -0.05em; }
 .hero-copy { position: absolute; left: 0; right: 0; bottom: 9vh; pointer-events: none; }
 .hero-copy .inner { pointer-events: auto; max-width: 640px; }
 .status { display: inline-flex; align-items: center; gap: 10px; color: var(--silver); margin-bottom: 28px; }
@@ -147,6 +136,18 @@ pre.code { font-family: var(--mono); font-size: 13.5px; line-height: 1.75; paddi
 .num { color: var(--steel); display: flex; gap: 14px; align-items: center; margin-bottom: 24px; }
 .num::after { content: ''; flex: 0 0 40px; height: 1px; background: currentColor; opacity: 0.5; }
 .dark .num, .showcase .num, .contact .num { color: var(--mid); }
+
+/* about: discreet editorial portrait + direct points */
+.about-photo { margin-top: 40px; width: min(240px, 56%); aspect-ratio: 3 / 4; border-radius: 14px; overflow: hidden; background: var(--obsidian); position: relative; box-shadow: 0 0 0 1px rgba(16, 17, 19, 0.12), 0 28px 56px -32px rgba(16, 17, 19, 0.7); }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.55) contrast(1.06); transition: filter 0.9s var(--ease), transform 1.2s var(--ease); }
+.about-photo:hover img { filter: grayscale(0.15) contrast(1.06); transform: scale(1.03); }
+.about-photo::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); background: linear-gradient(180deg, transparent 62%, rgba(16, 17, 19, 0.35)); }
+.points { list-style: none; border-top: 1px solid rgba(16, 17, 19, 0.14); }
+.points > li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 28px 0; border-bottom: 1px solid rgba(16, 17, 19, 0.14); }
+.points > li::before { content: ''; width: 12px; height: 1px; background: var(--obsidian); margin-top: 17px; }
+.points h3 { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; }
+.points p { color: var(--steel); font-size: 16px; margin-top: 6px; max-width: 48ch; }
+.about-cta { margin-top: 40px; }
 
 .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; list-style: none; }
 .tag { font: 500 12px var(--sans); padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(16, 17, 19, 0.2); }
@@ -252,7 +253,9 @@ pre.code { font-family: var(--mono); font-size: 13.5px; line-height: 1.75; paddi
 .copybtn { font: 500 12px var(--mono); text-transform: uppercase; color: var(--mid); border: 1px solid var(--g700); border-radius: 999px; padding: 6px 14px; cursor: pointer; background: none; transition: color 0.3s, border-color 0.3s; }
 .copybtn:hover { color: var(--white); border-color: var(--silver); }
 .socials { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-footer { margin-top: 120px; padding-top: 20px; border-top: 1px solid var(--g700); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--mid); }
+.contact-cta p { color: var(--silver); font-size: 19px; max-width: 34ch; margin-bottom: 24px; }
+footer { margin-top: 120px; padding-top: 20px; border-top: 1px solid var(--g700); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--mid); }
+footer .dissolve { display: block; opacity: 0.9; }
 footer .credit { text-transform: none; font-size: 11px; color: var(--steel); width: 100%; }
 footer .credit a { text-decoration: underline; }
 
