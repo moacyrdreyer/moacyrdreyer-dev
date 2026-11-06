@@ -24,14 +24,14 @@ export default function App() {
       <main>
         <MacbookHero />
         <Showcase />
-        <div className="light-sec">
+        <div className="content-sec">
           <About />
           <Services />
           <Projects />
           <OpenSource />
         </div>
         <Stack />
-        <div className="light-sec">
+        <div className="content-sec">
           <Process />
         </div>
         <Contact />

@@ -122,7 +122,11 @@ export function MacbookHero() {
           <div className="wrap">
             <div className="inner">
               {site.available && (
-                <div className="status mono fade-up" style={{ transitionDelay: '.1s' }}><b />{site.hero.status}</div>
+                // just the pulsing dot; the words stay for screen readers and as a tooltip
+                <div className="status fade-up" style={{ transitionDelay: '.1s' }} title={site.hero.status}>
+                  <b />
+                  <span className="sr-only">{site.hero.status}</span>
+                </div>
               )}
               <h1 className="name" aria-label={`${site.hero.title} ${site.hero.titleAccent}`}>
                 <span aria-hidden="true">

@@ -122,10 +122,6 @@ export function CodeDissolve() {
       while (shards.length < 46) spawn()
       code(t)
 
-      ctx.fillStyle = 'rgba(167,173,180,.6)'
-      ctx.font = '9px "IBM Plex Mono", monospace'
-      ctx.fillText('</>', 176, 82)
-
       if (!reduced && visible) raf = requestAnimationFrame(draw)
     }
 

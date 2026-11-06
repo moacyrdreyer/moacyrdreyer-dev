@@ -28,7 +28,7 @@ export function Contact() {
         <footer className="mono">
           <CodeDissolve />
           <span>© {new Date().getFullYear()} {site.name}</span>
-          <span>Feito com React + three.js</span>
+          <span className="made">Feito à base de bastante café com código <b aria-hidden="true">&lt;/&gt;</b></span>
           <a href="#top">Voltar ao topo ↑</a>
           <span className="credit">
             Modelo 3D: “<a href={c.modelUrl} target="_blank" rel="noreferrer">{c.model}</a>” por{' '}
