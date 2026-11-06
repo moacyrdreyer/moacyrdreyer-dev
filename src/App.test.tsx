@@ -14,6 +14,14 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: /Iniciar projeto/ })).toHaveAttribute('href', '#contato')
   })
 
+  it('keeps the spaces between headline words', () => {
+    render(<App />)
+    const h1 = screen.getByRole('heading', { level: 1 })
+    expect(h1.textContent?.replace(/\s+/g, ' ').trim()).toBe(`${site.hero.title} ${site.hero.titleAccent}`)
+    // each word box must not swallow the space that follows it
+    h1.querySelectorAll('.w').forEach(w => expect(w.textContent).not.toMatch(/\s$/))
+  })
+
   it('has every section the nav points to', () => {
     const { container } = render(<App />)
     for (const item of site.nav) expect(container.querySelector(item.href)).not.toBeNull()

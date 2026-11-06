@@ -52,7 +52,7 @@ describe('fitFrame', () => {
   })
   it('fits width on portrait viewports and sits in the upper part', () => {
     const f = fitFrame(390, 844, 960, 600)
-    expect(f.w).toBeCloseTo(390 * 1.35)
+    expect(f.w).toBeCloseTo(390 * 1.2)
     expect(f.x).toBeCloseTo((390 - f.w) / 2)
     expect(f.y).toBeGreaterThan(0)
     expect(f.y + f.h).toBeLessThan(844)

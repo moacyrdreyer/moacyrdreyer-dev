@@ -38,8 +38,8 @@ export function fitFrame(vw: number, vh: number, iw: number, ih: number): Fit {
     const w = iw * s, h = ih * s
     return { x: (vw - w) / 2, y: (vh - h) / 2, w, h }
   }
-  const w = vw * 1.35, h = w * (ih / iw)
-  return { x: (vw - w) / 2, y: vh * 0.12, w, h }
+  const w = vw * 1.2, h = w * (ih / iw)
+  return { x: (vw - w) / 2, y: vh * 0.08, w, h }
 }
 
 /** The screen powers on during the last part of the lid opening. */

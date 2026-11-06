@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { site } from '../../data/site'
 import { homographyMatrix3d, type Quad } from '../../lib/homography'
 import { fitFrame, frameIndex, nearestLoaded, screenOpacity, scrollProgress, type Fit } from '../../lib/sequence'
@@ -83,14 +83,28 @@ export function MacbookHero() {
       const m = meta.current
       if (m) {
         if (!fit) fit = fitFrame(VW, VH, m.width, m.height)
-        const f = fit
+        // phones: once the headline has faded, glide the laptop down to the vertical centre
+        const f = VW < VH ? { ...fit, y: fit.y + ((VH - fit.h) / 2 - fit.y) * Math.min(1, p / 0.35) } : fit
         const i = nearestLoaded(frameIndex(p, m.frames), j => !!frames.current[j], m.frames)
         if (i >= 0) {
-          if (i !== drawn) {
+          const key = i * 100000 + Math.round(f.y)
+          if (key !== drawn) {
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
             ctx.clearRect(0, 0, VW, VH)
             ctx.drawImage(frames.current[i]!, f.x, f.y, f.w, f.h)
-            drawn = i
+            if (VW < VH) {
+              // on phones the frame doesn't fill the view: feather its top/bottom so the shadow has no hard edge
+              const g = ctx.createLinearGradient(0, f.y, 0, f.y + f.h)
+              g.addColorStop(0, 'rgba(0,0,0,0)')
+              g.addColorStop(0.15, '#000')
+              g.addColorStop(0.82, '#000')
+              g.addColorStop(1, 'rgba(0,0,0,0)')
+              ctx.globalCompositeOperation = 'destination-in'
+              ctx.fillStyle = g
+              ctx.fillRect(0, 0, VW, VH)
+              ctx.globalCompositeOperation = 'source-over'
+            }
+            drawn = key
           }
           const c = m.corners[i]
           const quad = c.c.map(([x, y]) => [f.x + x * f.w, f.y + y * f.h]) as Quad
@@ -102,7 +116,8 @@ export function MacbookHero() {
         }
       }
       // in the last stretch the screen fills the view: drop the laptop so only the "display" remains
-      canvas.style.opacity = String(p > 0.9 ? Math.max(0, 1 - (p - 0.9) / 0.1) : 1)
+      const tail = p > 0.9 ? Math.max(0, 1 - (p - 0.9) / 0.1) : 1
+      canvas.style.opacity = String(tail)
 
       const nextPhase = p < IDE_FROM ? 'boot' : 'ide'
       if (nextPhase !== phaseRef.current) {
@@ -118,7 +133,10 @@ export function MacbookHero() {
         copy.style.visibility = fade >= 1 ? 'hidden' : 'visible'
       }
       if (hintRef.current) hintRef.current.style.opacity = String(1 - fade)
-      if (progRef.current) progRef.current.style.transform = `scaleX(${reduced ? 0 : p})`
+      if (progRef.current) {
+        progRef.current.style.transform = `scaleX(${reduced ? 0 : p})`
+        progRef.current.parentElement!.style.opacity = String(tail)
+      }
 
       const k = finePointer && !reduced ? 1 - p : 0
       if (tiltRef.current) tiltRef.current.style.transform = `rotateY(${mx * 5 * k}deg) rotateX(${-my * 3.5 * k}deg) translate3d(${mx * -14 * k}px, ${my * -10 * k}px, 0)`
@@ -141,10 +159,13 @@ export function MacbookHero() {
   const words = site.hero.title.split(' ')
   const accent = site.hero.titleAccent.split(' ')
   let w = 0
+  // the space must sit outside the clipped .w box, or the browser drops it
   const word = (text: string, metal: boolean) => (
-    <span className="w" key={`${text}-${w}`}>
-      <span className={metal ? 'metal' : undefined} style={{ transitionDelay: `${0.15 + w++ * 0.09}s` }}>{text}</span>{' '}
-    </span>
+    <Fragment key={`${text}-${w}`}>
+      <span className="w">
+        <span className={metal ? 'metal' : undefined} style={{ transitionDelay: `${0.15 + w++ * 0.09}s` }}>{text}</span>
+      </span>{' '}
+    </Fragment>
   )
 
   return (
