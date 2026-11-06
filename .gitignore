@@ -1,0 +1,11 @@
+node_modules
+dist
+*.local
+.DS_Store
+.vercel
+*.tsbuildinfo
+
+# render assets (large / third-party); scripts are versioned
+render/model
+render/hdri
+render/out
